@@ -11,7 +11,7 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private Boolean isEnabled;
+    private Boolean isEnabled = true;
 
     public User() {
     }
