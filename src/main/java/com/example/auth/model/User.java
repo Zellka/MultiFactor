@@ -1,7 +1,6 @@
 package com.example.auth.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,7 +18,6 @@ public class User {
     @Size(min = 6, max = 50)
     private String password;
     @NotNull
-    @Email
     @Column(unique = true)
     private String email;
     private boolean isEnabled = true;
