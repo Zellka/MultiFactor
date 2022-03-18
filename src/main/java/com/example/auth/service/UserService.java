@@ -17,7 +17,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User createUser(User user) throws UserBadRequestException {
+    public User createUser(User user) {
         return userRepository.save(user);
     }
 
@@ -40,5 +40,9 @@ public class UserService {
         } else {
             throw new UserNotFoundException();
         }
+    }
+
+    public void deleteUsers() {
+        userRepository.deleteAll();
     }
 }

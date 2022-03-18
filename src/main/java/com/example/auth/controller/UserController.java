@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,10 +21,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/registration")
-    public ResponseEntity createUser(@RequestBody User user) {
+    public ResponseEntity createUser(@Valid @RequestBody User user) {
         try {
             return new ResponseEntity(userService.createUser(user), HttpStatus.CREATED);
-        } catch (UserBadRequestException e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -53,6 +54,16 @@ public class UserController {
             return new ResponseEntity(HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/users")
+    public ResponseEntity deleteUsers() {
+        try {
+            userService.deleteUsers();
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
