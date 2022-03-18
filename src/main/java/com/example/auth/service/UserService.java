@@ -15,9 +15,6 @@ public class UserService {
 
     public User createUser(User user) throws UserBadRequestException {
         User persistedUser = userRepository.save(user);
-        if (persistedUser.getUsername() == null || persistedUser.getPassword() == null || persistedUser.getEmail() == null || persistedUser.getEnabled() == null) {
-            throw new UserBadRequestException("Данные некорректны");
-        }
         return persistedUser;
     }
 
