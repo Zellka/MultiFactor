@@ -1,8 +1,6 @@
 package com.example.auth.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -10,14 +8,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @NotNull
-    @Size(min = 2, max = 50)
     @Column(unique = true)
     private String username;
-    @NotNull
-    @Size(min = 6, max = 50)
     private String password;
-    @NotNull
     @Column(unique = true)
     private String email;
     private boolean isEnabled = true;
