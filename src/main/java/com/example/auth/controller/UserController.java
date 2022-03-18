@@ -20,8 +20,7 @@ public class UserController {
     @PostMapping("/registration")
     public ResponseEntity createUser(@RequestBody User user) {
         try {
-            userService.createUser(user);
-            return new ResponseEntity(HttpStatus.CREATED);
+            return new ResponseEntity(userService.createUser(user), HttpStatus.CREATED);
         } catch (UserBadRequestException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
