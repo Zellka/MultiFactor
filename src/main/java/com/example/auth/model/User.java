@@ -1,8 +1,9 @@
 package com.example.auth.model;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -21,15 +22,12 @@ public class User {
     @Email
     @Column(unique = true)
     private String email;
-    @NotNull
-    @Min(0)
-    @Max(1)
-    private Integer isEnabled;
+    private boolean isEnabled = true;
 
     public User() {
     }
 
-    public User(String username, String password, String email, Integer isEnabled) {
+    public User(String username, String password, String email, Boolean isEnabled) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -68,11 +66,11 @@ public class User {
         this.email = email;
     }
 
-    public Integer getEnabled() {
+    public Boolean getEnabled() {
         return isEnabled;
     }
 
-    public void setEnabled(Integer enabled) {
+    public void setEnabled(Boolean enabled) {
         isEnabled = enabled;
     }
 }

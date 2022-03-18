@@ -58,14 +58,4 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-    @DeleteMapping("/users")
-    public ResponseEntity deleteUsers() {
-        try {
-            userService.deleteUsers();
-            return new ResponseEntity(HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
 }

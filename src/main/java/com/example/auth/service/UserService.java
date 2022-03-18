@@ -41,8 +41,4 @@ public class UserService {
             throw new UserNotFoundException();
         }
     }
-
-    public void deleteUsers() {
-        userRepository.deleteAll();
-    }
 }
