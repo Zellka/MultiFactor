@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -32,6 +34,27 @@ public class UserController {
             return new ResponseEntity(userService.loginWithPassword(user.getUsername(), user.getPassword()), HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity getUsers() {
+        List<User> listUser = userService.getUsers();
+        if (listUser.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return new ResponseEntity<>(listUser, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity deleteUser(@PathVariable("id") Integer id) {
+        try {
+            userService.deleteUser(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 }
