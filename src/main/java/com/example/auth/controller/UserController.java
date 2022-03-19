@@ -98,7 +98,7 @@ public class UserController {
 
     @PostMapping("/auth/validate-key")
     public Validation loginWithQr(@RequestBody ValidateCodeDto body) {
-        return new Validation(gAuth.authorizeUser(body.getUsername(), body.getCode()));
+        return new Validation(!gAuth.authorizeUser(body.getUsername(), body.getCode()));
     }
 
     @GetMapping("/users")
