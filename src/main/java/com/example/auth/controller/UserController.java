@@ -72,20 +72,27 @@ public class UserController {
     @PostMapping("/auth/email")
     public ResponseEntity loginWithEmail(@RequestBody EmailCode emailCode) {
         if (userService.loginWithEmail(emailCode)) {
-            return new ResponseEntity("Авторизация прошла успешно",HttpStatus.OK);
+            return new ResponseEntity("Авторизация прошла успешно", HttpStatus.OK);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/generate-qr/{email}")
-    public void generateQr(@PathVariable String email, HttpServletResponse response) throws WriterException, IOException {
-        final GoogleAuthenticatorKey key = gAuth.createCredentials(email);
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        String otpAuthURL = GoogleAuthenticatorQRGenerator.getOtpAuthTotpURL("MFA", email, key);
-        BitMatrix bitMatrix = qrCodeWriter.encode(otpAuthURL, BarcodeFormat.QR_CODE, 200, 200);
-        ServletOutputStream outputStream = response.getOutputStream();
-        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
-        outputStream.close();
+    public ResponseEntity generateQr(@PathVariable String email, HttpServletResponse response) throws WriterException, IOException {
+        try {
+            if (userRepository.findByEmail(email) != null) {
+                final GoogleAuthenticatorKey key = gAuth.createCredentials(email);
+                QRCodeWriter qrCodeWriter = new QRCodeWriter();
+                String otpAuthURL = GoogleAuthenticatorQRGenerator.getOtpAuthTotpURL("MFA", email, key);
+                BitMatrix bitMatrix = qrCodeWriter.encode(otpAuthURL, BarcodeFormat.QR_CODE, 200, 200);
+                ServletOutputStream outputStream = response.getOutputStream();
+                MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
+                outputStream.close();
+                return new ResponseEntity(HttpStatus.OK);
+            } else throw new UserBadRequestException("Такой почты не существует");
+        } catch (UserBadRequestException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/auth/validate-key")
