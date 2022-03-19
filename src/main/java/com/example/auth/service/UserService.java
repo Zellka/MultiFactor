@@ -66,15 +66,18 @@ public class UserService {
         return user.get();
     }
 
-    public void sendEmail(User user) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        emailUser = user.getEmail();
-        mailMessage.setTo(emailUser);
-        mailMessage.setSubject("Подтвердите вход в аккаунт");
-        mailMessage.setFrom("ilona.hackathon.spring@gmail.com");
-        mailMessage.setText("Здравствуйте, " + user.getUsername() + ". Ваш код: " + code);
+    public void sendEmail(User user) throws UserBadRequestException {
+        User emailU = userRepository.findByEmail(user.getEmail());
+        if (emailU != null) {
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            emailUser = user.getEmail();
+            mailMessage.setTo(emailUser);
+            mailMessage.setSubject("Подтвердите вход в аккаунт");
+            mailMessage.setFrom("ilona.hackathon.spring@gmail.com");
+            mailMessage.setText("Здравствуйте, " + user.getUsername() + ". Ваш код: " + code);
 
-        emailSenderService.sendEmail(mailMessage);
+            emailSenderService.sendEmail(mailMessage);
+        } else throw new UserBadRequestException("Такой почты не найдено");
     }
 
     public Boolean loginWithEmail(EmailCode emailCode) {

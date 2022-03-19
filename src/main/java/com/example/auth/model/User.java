@@ -11,16 +11,16 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private boolean isEnabled = true;
+    private Boolean enabled;
 
     public User() {
     }
 
-    public User(String username, String password, String email, Boolean isEnabled) {
+    public User(String username, String password, String email, Boolean enabled) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.isEnabled = isEnabled;
+        this.enabled = enabled;
     }
 
     public Integer getId() {
@@ -56,10 +56,10 @@ public class User {
     }
 
     public Boolean getEnabled() {
-        return isEnabled;
+        return enabled;
     }
 
     public void setEnabled(Boolean enabled) {
-        isEnabled = enabled;
+        this.enabled = enabled;
     }
 }
