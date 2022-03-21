@@ -73,7 +73,7 @@ public class UserService {
             emailUser = user.getEmail();
             mailMessage.setTo(emailUser);
             mailMessage.setSubject("Подтвердите вход в аккаунт");
-            mailMessage.setFrom("ilona.hackathon.spring@gmail.com");
+            mailMessage.setFrom("hackathon.spring@gmail.com");
             mailMessage.setText("Здравствуйте, " + user.getUsername() + ". Ваш код: " + code);
 
             emailSenderService.sendEmail(mailMessage);
